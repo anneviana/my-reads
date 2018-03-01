@@ -2,7 +2,7 @@ import React from 'react';
 // import * as BooksAPI from './BooksAPI'
 
 
-const Book = ({ book, updateShelf, shelfTitle }) => {
+const Book = ({ book, updateShelf, shelfTitle, status }) => {
   return (
     <li key={book.id}>
       <div className="book">

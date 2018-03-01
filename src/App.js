@@ -11,10 +11,46 @@ class BooksApp extends Component {
     state = {
       books: [],
       query: '',
+      status: 'None'
     };
+
   componentWillMount() {
-    this.getAllBooks()
+    const myReadsShelves = window.localStorage.getItem('myReadsShelves') || '[]'
+    window.localStorage.getItem('myReadsShelves') ? this.setState({ books: JSON.parse(myReadsShelves) }) : this.getAllBooks()
   }
+
+  updateLocalStorage(books) {
+    const stringfiedShelves = JSON.stringify(books)
+    window.localStorage.setItem('myReadsShelves', stringfiedShelves)
+    this.setState({ books })
+  }
+
+  updateShelf = (target, book) => {
+    let { books } = this.state
+    books = books.filter(b => b.id !== book.id).concat({
+      ...book,
+      shelf: target.selected ? 'None' : target.value
+    })
+    console.log(target.value)
+    console.log(book.shelf)
+    if (target.value === book.shelf) {
+      target.selected = 'selected'
+    } else {
+      target.selected = 'none'
+    }
+
+    this.updateLocalStorage(books)
+  }
+
+  updateQuery = (query) => {
+    this.setState({ query: query.trim() })
+    this.search(query)
+  }
+
+  clearQuery = () => {
+    this.setState({ query: '' })
+  }
+
   getAllBooks = () => {
     // Inside catch block the context change so assign like this to reference the app context not the catch context
     const app = this;
@@ -24,15 +60,11 @@ class BooksApp extends Component {
     })
   }
 
-  updateShelf = (book) => {
-    console.log('update');
-  }
-
   /**
    * @description Search books for the query state.
    */
-  search = () => {
-    const query = this.state.query;
+  search = (query, books) => {
+    //const query = this.state.query;
     if (query.trim() === '') {
       this.setState({query: '', searchResults: []});
       return;
@@ -48,19 +80,28 @@ class BooksApp extends Component {
         books = []
       }
       else {
-        books.map(book => (this.state.books.filter((b) => b.id === book.id).map(b => book.shelf = b.shelf)));
+        books.map(book =>
+          (this.state.books.filter(
+            (b) => b.id === book.id).map(b => book.shelf = b.shelf).concat({
+              ...book,
+              testeXablau: 'None'
+            })
+          )
+        );
       }
       this.setState({
         searchResults: books.sort(sortBy('title'))
       });
+      console.log(books)
+      this.setState({ books })
     })
   };
   render() {
     const { books } = this.state
     const bookShelf = [
-      { title: 'Currently Reading', books },
-      { title: 'Want to Read', books },
-      { title: 'Read', books }
+      { title: 'Currently Reading', books, status: 'currentlyReading' },
+      { title: 'Want to Read', books, status: 'wantToRead' },
+      { title: 'Read', books, status: 'read' }
     ]
     return (
       <div className="app">
@@ -70,14 +111,17 @@ class BooksApp extends Component {
               <h1>MyReads</h1>
             </div>
             <div>
-            {bookShelf.map(shelf => (
-              <BookShelf
-                updateShelf={(target, book) => this.updateShelf(target, book)}
-                key={shelf.title}
-                shelfTitle={shelf.title}
-                books={shelf.books}
-              />
-              ))}
+            <div className="list-books-content">
+              {bookShelf.map(shelf => (
+                <BookShelf
+                  updateShelf={(target, book) => this.updateShelf(target, book)}
+                  key={shelf.title}
+                  status={shelf.status}
+                  shelfTitle={shelf.title}
+                  books={shelf.books}
+                />
+                ))}
+              </div>
               <div className="open-search">
                 <Link to='/search'>Add a book</Link>
               </div>
@@ -86,12 +130,13 @@ class BooksApp extends Component {
         )}/>
         <Route exact path='/search' render={(history) => (
           <Search
-          updateShelf={books}
+          updateShelf={(target, book) => this.updateShelf(target, book)}
           key={books.title}
           books={this.state.books}
           query={this.state.query}
-          onUpdateQuery={this.updateQuery}
+          updateQuery={this.updateQuery}
           onSearch={this.search} />
+
         )}/>
       </div>
     )
