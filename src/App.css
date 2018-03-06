@@ -1,34 +1,35 @@
-html, body, .root {
-  height: 100%;
-}
 body {
   line-height: 1.5;
-}
-body, .app {
-  background: white;
+  /*background: url('../public/images/light.png'), linear-gradient(#410b0c, #ac1617, #240909);*/
+  background: url('../public/images/light.png'), linear-gradient(#1d083f, #3c1281, #13052a);
+  background-repeat: no-repeat;
 }
 
 /* main page */
 
 .list-books-title {
   padding: 10px 0;
-  background: #095166;
   text-align: center;
 }
 .list-books-title h1 {
   font-weight: 400;
-  margin: 0;
-  color: white;
+  margin: 0 20px;
+  color: #fff;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .list-books-content {
   padding: 0 0 80px;
-  display: grid;
-  grid-template-columns: 33.3% 33.3% 33.3%;
 }
 
 .bookshelf {
   padding: 0 10px 20px;
+  background: url('../public/images/shelf.png');
+  background-repeat: no-repeat;
+  display: flex;
+  background-position: center bottom;
+  flex-direction: column;
 }
 
 .read {
@@ -42,11 +43,13 @@ body, .app {
 }
 
 .bookshelf-title {
-  border-bottom: 1px solid #dedede;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: #095166;
+  color: #fff;
   font-size: 1em;
+  display: flex;
+  justify-content: center;
+  margin: 0;
 }
 .bookshelf-books {
   text-align: center;
@@ -150,18 +153,17 @@ body, .app {
 }
 
 .book-shelf-changer {
-  position: absolute;
-  right: 0;
-  bottom: -10px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #60ac5d;
-  background-image: url('./icons/arrow-drop-down.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 20px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    position: absolute;
+    left: 45px;
+    top: 90px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-image: url('./icons/change.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 32px;
+    /* box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); */
 }
 .book-shelf-changer select {
   width: 100%;

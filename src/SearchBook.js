@@ -4,7 +4,6 @@ import escapeRegExp from 'escape-string-regexp'
 import Book from './Book'
 
 const SearchBook = ({ query, books, updateShelf, updateQuery, clearQuery, status }) => {
-  // const currentTasks = books.filter(book => book.status === columnTitle)
   let searchBooks
   if (query) {
     const match = new RegExp(escapeRegExp(query), 'i')
@@ -20,7 +19,7 @@ const SearchBook = ({ query, books, updateShelf, updateQuery, clearQuery, status
             <input type="text"
               placeholder="Search by title or author"
               value={query}
-              onChange={(event) => updateQuery(event.target.value)}
+              onChange={(event) => updateQuery(event.target.value, books)}
               />
           </div>
         </div>

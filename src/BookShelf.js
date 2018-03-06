@@ -5,7 +5,6 @@ const BookShelf = ({ shelfTitle, books, updateShelf, status }) => {
   const currentBookShelf = books.filter(book => book.shelf === status)
   return (
     <div className="bookshelf">
-      <h2 className="bookshelf-title">{shelfTitle}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
         {currentBookShelf.map((book) => (
@@ -18,6 +17,7 @@ const BookShelf = ({ shelfTitle, books, updateShelf, status }) => {
         )) }
         </ol>
       </div>
+      <h2 className="bookshelf-title">{shelfTitle}</h2>
     </div>
   )
 }
