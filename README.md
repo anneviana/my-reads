@@ -10,14 +10,14 @@ To get started developing right away:
 
 ## Project Dependencies:
 
-```bash
+# Sort by, a utility to create comparator functions for the native Array.sort()
 npm install sort-by
 
-npm install --save jquery
-
-## Escape RegExp special characters
+# Escape RegExp special characters
 $ npm install --save escape-string-regexp
-```
+
+# DOM bindings for React Router.
+$ npm install --save react-router-dom
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
