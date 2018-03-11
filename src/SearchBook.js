@@ -1,7 +1,7 @@
- import React from 'react'
-import { Link } from 'react-router-dom'
-import escapeRegExp from 'escape-string-regexp'
-import Book from './Book'
+ import React from 'react';
+import { Link } from 'react-router-dom';
+import escapeRegExp from 'escape-string-regexp';
+import Book from './Book';
 
 const SearchBook = ({ query, books, updateShelf, updateQuery, clearQuery, status }) => {
   let searchBooks
@@ -37,6 +37,6 @@ const SearchBook = ({ query, books, updateShelf, updateQuery, clearQuery, status
         </div>
       </div>
     )
-}
+};
 
 export default SearchBook

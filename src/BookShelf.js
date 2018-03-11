@@ -20,6 +20,6 @@ const BookShelf = ({ shelfTitle, books, updateShelf, status }) => {
       <h2 className="bookshelf-title">{shelfTitle}</h2>
     </div>
   )
-}
+};
 
 export default BookShelf

@@ -2,16 +2,22 @@ import React, {Component} from 'react'
 import { Route, Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import Search from './SearchBook'
-// import sortBy from 'sort-by'
 import BookShelf from './BookShelf'
 import './App.css'
 
 class BooksApp extends Component {
-    /** @type {ComponentState} */
+    /**
+     * @typedef {Object} ComponentState
+     * @property {Object[]} books - All books that has been set a  state.
+     * @property {string} query - Search term input.
+     * @property {string} status - the chosen shelf.
+     * @property {Object[]} searchResults - All books returned from the search.
+     */
     state = {
       books: [],
       query: '',
-      status: 'none'
+      status: 'none',
+      searchRecords: [],
     };
   /**
   * @description Mount the "myReadsShelves" storage from books state
@@ -20,7 +26,7 @@ class BooksApp extends Component {
   componentWillMount() {
     const myReadsShelves = window.localStorage.getItem('myReadsShelves') || '[]'
     window.localStorage.getItem('myReadsShelves') ? this.setState({ books: JSON.parse(myReadsShelves) }) : this.getAllBooks()
-  }
+  };
   /**
   * @description Change the book on the shelf
   * @param {object} books
@@ -31,7 +37,7 @@ class BooksApp extends Component {
     const stringfiedShelves = JSON.stringify(books)
     window.localStorage.setItem('myReadsShelves', stringfiedShelves)
     this.setState({ books })
-  }
+  };
   /**
   * @description Change the book on the shelf
   * @param {object} books
@@ -40,11 +46,11 @@ class BooksApp extends Component {
   */
   updateShelf = (target, book) => {
     let { books } = this.state
-    BooksAPI.update().then((book, target) => {
       books = books.filter(b => b.id !== book.id).concat({
         ...book,
-        shelf: target.selected ? 'None' : target.value
+        shelf: target.selected ? 'none' : target.value
       })
+    BooksAPI.update(books, target.value).then((book) => {
     })
     // if (target.value === book.shelf) {
     //   target.selected = 'selected'
@@ -53,7 +59,7 @@ class BooksApp extends Component {
     // }
     // Update the "books" state and "myReadsShelves" storage
     this.updateLocalStorage(books)
-  }
+  };
   /**
   * @description Update the search
   * @param {string} query
@@ -62,14 +68,14 @@ class BooksApp extends Component {
   updateQuery = (query, books) => {
     this.setState({ query: query.trim() })
     this.search(query, books)
-  }
+  };
   /**
   * @description Cleans the previously search
   * @returns {object} The object "books" state
   */
   clearQuery = () => {
     this.setState({ query: '' })
-  }
+  };
   /**
   * @description Get all default books and their respective shelves
   * @returns {object} The object "books" state
@@ -81,7 +87,7 @@ class BooksApp extends Component {
     BooksAPI.getAll().then((books) => {
       app.setState({books: books});
     })
-  }
+  };
   /**
   * @description Search books for the query state.
   * @param {string} query
@@ -104,13 +110,13 @@ class BooksApp extends Component {
         books = []
       }
       else {
-        books = book.filter(
-          (b) => b.id === book.id).concat({
-            ...books,
-            shelf: 'none'
-          })
+        const teste =  books.map(book => (this.state.books.filter(
+          (b) => b.id === book.id).map(b => book.shelf = b.shelf)))
+          //books.map(book => (this.state.books.filter((b) => b.id === book.id).map(b => book.shelf = b.shelf)));
+        const stringfiedShelves = JSON.stringify(teste)
+        window.localStorage.setItem('buscamotherfucker', stringfiedShelves)
         this.setState({
-          books
+          searchRecords: teste
         })
       }
       // this.setState({
@@ -158,7 +164,6 @@ class BooksApp extends Component {
           query={this.state.query}
           updateQuery={(query, book) => this.updateQuery(query, book)}
           onSearch={this.search} />
-
         )}/>
       </div>
     )

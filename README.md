@@ -12,10 +12,9 @@ To get started developing right away:
 
 ```bash
 npm install sort-by
-```bash
-npm install proptypes
-```
-```bash
+
+npm install --save jquery
+
 ## Escape RegExp special characters
 $ npm install --save escape-string-regexp
 ```
