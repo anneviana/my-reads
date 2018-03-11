@@ -30,7 +30,6 @@ class BooksApp extends Component {
   /**
   * @description Change the book on the shelf
   * @param {object} books
-  * @param {event} the event target
   * @returns {object} Update the storage and set the books state concatenating shelf
   */
   updateLocalStorage(books) {
@@ -52,12 +51,6 @@ class BooksApp extends Component {
       })
     BooksAPI.update(books, target.value).then((book) => {
     })
-    // if (target.value === book.shelf) {
-    //   target.selected = 'selected'
-    // } else {
-    //   target.selected = 'none'
-    // }
-    // Update the "books" state and "myReadsShelves" storage
     this.updateLocalStorage(books)
   };
   /**
