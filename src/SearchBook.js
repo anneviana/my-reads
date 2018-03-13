@@ -4,12 +4,10 @@ import escapeRegExp from 'escape-string-regexp';
 import Book from './Book';
 
 const SearchBook = ({ query, books, updateShelf, updateQuery, clearQuery, status }) => {
-  let searchBooks
+  let searchBooks = [];
   if (query) {
     const match = new RegExp(escapeRegExp(query), 'i')
     searchBooks = books.filter((book) => match.test(book.title))
-  } else {
-    searchBooks = books
   }
     return (
       <div className="search-books">

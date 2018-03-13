@@ -13,6 +13,9 @@ To get started developing right away:
 # Sort by, a utility to create comparator functions for the native Array.sort()
 npm install sort-by
 
+# jquery
+npm install jquery
+
 # Escape RegExp special characters
 $ npm install --save escape-string-regexp
 

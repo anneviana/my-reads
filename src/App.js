@@ -1,23 +1,17 @@
-import React, {Component} from 'react'
-import { Route, Link } from 'react-router-dom'
-import * as BooksAPI from './BooksAPI'
-import Search from './SearchBook'
-import BookShelf from './BookShelf'
-import './App.css'
+import React, {Component} from 'react';
+import { Route, Link } from 'react-router-dom';
+import * as BooksAPI from './BooksAPI';
+import Search from './SearchBook';
+import $ from 'jquery';
+import BookShelf from './BookShelf';
+import './App.css';
 
 class BooksApp extends Component {
-    /**
-     * @typedef {Object} ComponentState
-     * @property {Object[]} books - All books that has been set a  state.
-     * @property {string} query - Search term input.
-     * @property {string} status - the chosen shelf.
-     * @property {Object[]} searchResults - All books returned from the search.
-     */
+    /** @type {ComponentState} */
     state = {
       books: [],
       query: '',
-      status: 'none',
-      searchRecords: [],
+      status: 'none'
     };
   /**
   * @description Mount the "myReadsShelves" storage from books state
@@ -30,6 +24,7 @@ class BooksApp extends Component {
   /**
   * @description Change the book on the shelf
   * @param {object} books
+  * @param {event} the event target
   * @returns {object} Update the storage and set the books state concatenating shelf
   */
   updateLocalStorage(books) {
@@ -45,12 +40,12 @@ class BooksApp extends Component {
   */
   updateShelf = (target, book) => {
     let { books } = this.state
-      books = books.filter(b => b.id !== book.id).concat({
-        ...book,
-        shelf: target.selected ? 'none' : target.value
-      })
-    BooksAPI.update(books, target.value).then((book) => {
+    books = books.filter(b => b.id !== book.id).concat({
+      ...book,
+      shelf: target.selected ? 'none' : target.value
     })
+    $(target).children(':selected').attr('selected', true);
+    // Update the "books" state and "myReadsShelves" storage
     this.updateLocalStorage(books)
   };
   /**
@@ -89,32 +84,13 @@ class BooksApp extends Component {
   */
   search = (query, book) => {
     if (query.trim() === '') {
-      this.setState({query: '', searchResults: []});
+      this.setState({query: ''});
       return;
     }
 
     BooksAPI.search(query).then((books) => {
-      // If the query state (the search input) changed while the request was in process not show the books
-      // of a previous query state
       if (query !== this.state.query) return;
-
-      //If the query is empty no need to request to server just clean the books array
-      if ('error' in books) {
-        books = []
-      }
-      else {
-        const teste =  books.map(book => (this.state.books.filter(
-          (b) => b.id === book.id).map(b => book.shelf = b.shelf)))
-          //books.map(book => (this.state.books.filter((b) => b.id === book.id).map(b => book.shelf = b.shelf)));
-        const stringfiedShelves = JSON.stringify(teste)
-        window.localStorage.setItem('buscamotherfucker', stringfiedShelves)
-        this.setState({
-          searchRecords: teste
-        })
-      }
-      // this.setState({
-      //   searchResults: books.sort(sortBy('title'))
-      // });
+      this.updateLocalStorage(books)
     })
   };
   render() {
@@ -157,6 +133,7 @@ class BooksApp extends Component {
           query={this.state.query}
           updateQuery={(query, book) => this.updateQuery(query, book)}
           onSearch={this.search} />
+
         )}/>
       </div>
     )

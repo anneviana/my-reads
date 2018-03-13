@@ -1,5 +1,5 @@
-import React from 'react'
-import Book from './Book'
+import React from 'react';
+import Book from './Book';
 
 const BookShelf = ({ shelfTitle, books, updateShelf, status }) => {
   const currentBookShelf = books.filter(book => book.shelf === status)
