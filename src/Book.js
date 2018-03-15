@@ -14,7 +14,7 @@ const Book = ({ book, updateShelf, shelfTitle, status, bookInfo }) => {
             </div>,
             <div className="book-shelf-changer tooltip">
               <span className="tooltiptext">Change bookshelf</span>
-              <select onChange={(e) => updateShelf(e.target, book)}>
+              <select onChange={(e) => updateShelf(e.target, book)} value={book.shelf}>
                 <option value="none" disabled>Move to...</option>
                 <option value="none">None</option>
                 <option value="currentlyReading">Currently Reading</option>

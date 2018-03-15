@@ -17,7 +17,7 @@ const SearchBook = ({ query, books, updateShelf, updateQuery, clearQuery, status
             <input type="text"
               placeholder="Search by title or author"
               value={query}
-              onChange={(event) => updateQuery(event.target.value, books)}
+              onChange={(event) => updateQuery(event.target.value)}
               />
           </div>
         </div>

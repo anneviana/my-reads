@@ -54,7 +54,11 @@ class BooksApp extends Component {
   * @returns {object} The object of the "searchResults" state
   */
   updateQuery = (query, books) => {
-    this.setState({ query: query.trim() })
+    // if the query is empty
+    if (!query) {
+      this.setState(query: '')
+    }
+    this.setState({ query: query })
     this.search(query, books)
   };
   /**
@@ -89,8 +93,23 @@ class BooksApp extends Component {
     }
 
     BooksAPI.search(query).then((books) => {
-      if (query !== this.state.query) return;
-      this.updateLocalStorage(books)
+        if (query !== this.state.query) return;
+        // If the query return is empty set a clean books array
+        if ('error' in books) {
+          books = []
+        }
+        else {
+          books.map(book =>
+            (
+              this.state.books.filter(
+              (b) => b.id === book.id).map(b => book.shelf = b.shelf)
+            )
+          );
+        }
+        this.setState({
+          search: books
+        });
+        this.updateLocalStorage(books)
     })
   };
   render() {
